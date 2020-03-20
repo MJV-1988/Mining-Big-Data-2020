@@ -1,0 +1,109 @@
+ \documentclass[12t]{article}
+ 
+ \usepackage[margin=1in]{geometry} 
+ \usepackage{amsmath,amsthm,amssymb, mathtools}
+ \usepackage{graphicx}
+ \usepackage{subcaption}
+ \usepackage{wrapfig}
+ \usepackage{natbib}
+ \bibliographystyle{plain}
+ 
+ % Used to create code windows for Java
+ \usepackage{listings}
+ \usepackage{color}
+ 
+ \definecolor{dkgreen}{rgb}{0,0.6,0}
+ \definecolor{gray}{rgb}{0.5,0.5,0.5}
+ \definecolor{mauve}{rgb}{0.58,0,0.82}
+ 
+ \lstset{frame=tb,
+ 	language=Java,
+ 	aboveskip=3mm,
+ 	belowskip=3mm,
+ 	showstringspaces=false,
+ 	columns=flexible,
+ 	basicstyle={\small\ttfamily},
+ 	numbers=none,
+ 	numberstyle=\tiny\color{gray},
+ 	keywordstyle=\color{blue},
+ 	commentstyle=\color{dkgreen},
+ 	stringstyle=\color{mauve},
+ 	breaklines=true,
+ 	breakatwhitespace=true,
+ 	tabsize=3
+ }
+
+  
+  \begin{document}
+ 	% PUT YOUR TITLE AND NAME HERE
+ 	\newcommand{\titlestr}{Mining Big Data - Map-Reduce}
+ 	\newcommand{\shorttitlestr}{Assignment 1 - Hadoop}
+ 	\newcommand{\groupnames}{M. Vincent \& A. Phansalkar}
+ 	\newcommand{\studentids}{a1148120 \& }
+ 	\newcommand{\authorstr}{\groupnames}
+ 	
+ 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%555
+ 	% title page
+ 	\begin{titlepage}
+ 		\centering
+ 		
+ 		{\LARGE \bf \titlestr \par}
+ 		\vspace{0.25cm}
+ 		{\large \bf \shorttitlestr \par}
+ 		
+ 		
+ 		\vspace{1cm}
+ 		{\large \authorstr \\}
+ 		{ \studentids \par}
+ 		\vspace{0.25cm}
+ 		
+ 		\large School of Computer Science, The University of Adelaide
+ 		
+ 		\vspace{1cm}
+ 		\today
+ 		
+ 		\vspace{3cm}
+ 		Report submitted for
+ 		{\bf COMP SCI 3306 Mining Big Data}
+ 		at the School of Computer Science,
+ 		University of Adelaide
+ 		
+ 		\includegraphics[width=0.35\textwidth]{./Figures/UoA_logo_cmyk.pdf}
+ 		
+ 		\vspace{9cm}
+ 		
+
+ 	 	\vspace{1mm}
+ 		\noindent \hrulefill
+ 		
+ 		\vfill
+ 	\end{titlepage}
+ 	
+ 	\clearpage
+ 	\setcounter{page}{1}
+	
+	\section*{Exercise 1}
+	
+	In this exercise, we consider an attempt to identify suspected evil-doers from a population of 5 billion people, observed over a period of 5,000 days. For a pair of individuals to be suspected of evil-doing, they must visit the same hotel at the same time, on four different days. 
+	
+	The number of hotels is set at $1\%$ of the population, hence there are $500,000$ hotels. The chance of two individuals being at the same hotel on the same day is .0001. The chance that they will visit the same hotel on the same day, is this divided by the number of hotels, which is $2^{-10}$. The chance that a pair will visit the same hotel on 4 different days is this to the power of four, which is $1.6^{-39}$. 
+	
+	Using the fact that ${n \choose 2}$ can be approximated by $n^2/2$, we find that the number of pairs of people is ${5^{10} \choose 2}=1.25^{19}$, and the number of pairs of days is ${5000 \choose 2}=1.25^{7}$. The expected number of events that look like evil-doing is then calculated as,
+	
+	\begin{align}
+	1.25^{19} \times 1.25^{7} \times 1.6^{-39} = 2.5^{-13}
+	\end{align}
+	
+	The expected number of events that look like evil-doing is effectively zero, using the above definition of suspected evil-doing. 
+	
+	\section*{Exercise 2}
+
+	
+	\section*{Exercise 3}
+
+	\section*{Exercise 4}
+	
+	\section*{Exercise 5}
+
+\bibliography{./bibliography-ChapterSummary}
+\end{document}
