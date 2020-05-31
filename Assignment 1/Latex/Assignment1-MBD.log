@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6730 64-bit) (preloaded format=pdflatex 2018.7.31)  20 MAR 2020 10:33
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6730 64-bit) (preloaded format=pdflatex 2018.7.31)  29 MAR 2020 15:14
 entering extended mode
 **./Assignment1-MBD.tex
 (Assignment1-MBD.tex
@@ -290,18 +290,18 @@ LaTeX Warning: Unused global option(s):
 (Assignment1-MBD.aux)
 \openout1 = `Assignment1-MBD.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 37.
-LaTeX Font Info:    ... okay on input line 37.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 37.
-LaTeX Font Info:    ... okay on input line 37.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 37.
-LaTeX Font Info:    ... okay on input line 37.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 37.
-LaTeX Font Info:    ... okay on input line 37.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 37.
-LaTeX Font Info:    ... okay on input line 37.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 37.
-LaTeX Font Info:    ... okay on input line 37.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 39.
+LaTeX Font Info:    ... okay on input line 39.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 39.
+LaTeX Font Info:    ... okay on input line 39.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 39.
+LaTeX Font Info:    ... okay on input line 39.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 39.
+LaTeX Font Info:    ... okay on input line 39.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 39.
+LaTeX Font Info:    ... okay on input line 39.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 39.
+LaTeX Font Info:    ... okay on input line 39.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -417,19 +417,19 @@ Package caption Info: End \AtBeginDocument code.
 <./Figures/UoA_logo_cmyk.pdf, id=1, 199.1691pt x 85.358pt>
 File: ./Figures/UoA_logo_cmyk.pdf Graphic file (type pdf)
 <use ./Figures/UoA_logo_cmyk.pdf>
-Package pdftex.def Info: ./Figures/UoA_logo_cmyk.pdf  used on input line 71.
+Package pdftex.def Info: ./Figures/UoA_logo_cmyk.pdf  used on input line 73.
 (pdftex.def)             Requested size: 164.41711pt x 70.4681pt.
  [1
 
 {C:/Users/MatthewVincent/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map} <./
 Figures/UoA_logo_cmyk.pdf>]
-LaTeX Font Info:    Try loading font information for U+msa on input line 89.
+LaTeX Font Info:    Try loading font information for U+msa on input line 91.
 
 ("C:\Users\MatthewVincent\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsfonts\
 umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 89.
+LaTeX Font Info:    Try loading font information for U+msb on input line 91.
 
 ("C:\Users\MatthewVincent\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsfonts\
 umsb.fd"
@@ -438,37 +438,45 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 
 Package amsmath Warning: Foreign command \atopwithdelims;
 (amsmath)                \frac or \genfrac should be used instead
-(amsmath)                 on input line 91.
+(amsmath)                 on input line 93.
 
-No file Assignment1-MBD.bbl.
 [1
 
-] (Assignment1-MBD.aux) ) 
+]
+Missing character: There is no â in font cmr10!
+Missing character: There is no † in font cmr10!
+Missing character: There is no ’ in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no € in font cmr10!
+Missing character: There is no ™ in font cmr10!
+
+No file Assignment1-MBD.bbl.
+[2] (Assignment1-MBD.aux) ) 
 Here is how much of TeX's memory you used:
  6219 strings out of 493305
  94797 string characters out of 3125887
- 181550 words of memory out of 3000000
+ 184550 words of memory out of 3000000
  9686 multiletter control sequences out of 15000+200000
  7155 words of font info for 28 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 42i,8n,40p,512b,219s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/Users/MatthewVincent/AppData/Local/Programs/MiKTeX
- 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/MatthewVincent/AppData
-/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/
-MatthewVincent/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm
-/cmmi10.pfb><C:/Users/MatthewVincent/AppData/Local/Programs/MiKTeX 2.9/fonts/ty
-pe1/public/amsfonts/cm/cmmi7.pfb><C:/Users/MatthewVincent/AppData/Local/Program
-s/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/MatthewVincent/
-AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/
-Users/MatthewVincent/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfo
-nts/cm/cmr5.pfb><C:/Users/MatthewVincent/AppData/Local/Programs/MiKTeX 2.9/font
-s/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/MatthewVincent/AppData/Local/Prog
-rams/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/MatthewVinc
-ent/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy7.pfb>
-
-Output written on Assignment1-MBD.pdf (2 pages, 289163 bytes).
+ 42i,8n,40p,878b,219s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Users/MatthewVincent/AppData/Local/Programs/MiKT
+eX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/MatthewVincent/AppDa
+ta/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/User
+s/MatthewVincent/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/
+cm/cmmi10.pfb><C:/Users/MatthewVincent/AppData/Local/Programs/MiKTeX 2.9/fonts/
+type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/MatthewVincent/AppData/Local/Progr
+ams/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/MatthewVincen
+t/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C
+:/Users/MatthewVincent/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/ams
+fonts/cm/cmr5.pfb><C:/Users/MatthewVincent/AppData/Local/Programs/MiKTeX 2.9/fo
+nts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/MatthewVincent/AppData/Local/Pr
+ograms/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/MatthewVi
+ncent/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy7.pf
+b>
+Output written on Assignment1-MBD.pdf (3 pages, 298198 bytes).
 PDF statistics:
- 67 PDF objects out of 1000 (max. 8388607)
+ 70 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  6 words of extra memory for PDF output out of 10000 (max. 10000000)
 

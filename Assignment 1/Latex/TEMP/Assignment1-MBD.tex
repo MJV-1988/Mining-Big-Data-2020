@@ -1,0 +1,131 @@
+ \documentclass[12t]{article}
+ 
+ \usepackage[margin=1in]{geometry} 
+ \usepackage{amsmath,amsthm,amssymb, mathtools}
+ \usepackage{graphicx}
+ \usepackage{subcaption}
+ \usepackage{wrapfig}
+ \usepackage{natbib}
+ \bibliographystyle{plain}
+ 
+ % Used to create code windows for Java
+ \usepackage{listings}
+ \usepackage{color}
+ 
+ \definecolor{dkgreen}{rgb}{0,0.6,0}
+ \definecolor{gray}{rgb}{0.5,0.5,0.5}
+ \definecolor{mauve}{rgb}{0.58,0,0.82}
+ 
+ \lstset{frame=tb,
+ 	language=Java,
+ 	aboveskip=3mm,
+ 	belowskip=3mm,
+ 	showstringspaces=false,
+ 	columns=flexible,
+ 	basicstyle={\small\ttfamily},
+ 	numbers=none,
+ 	numberstyle=\tiny\color{gray},
+ 	keywordstyle=\color{blue},
+ 	commentstyle=\color{dkgreen},
+ 	stringstyle=\color{mauve},
+ 	breaklines=true,
+ 	breakatwhitespace=true,
+ 	tabsize=3
+ }
+
+  
+  \begin{document}
+ 	% PUT YOUR TITLE AND NAME HERE
+ 	\newcommand{\titlestr}{Mining Big Data - Map-Reduce}
+ 	\newcommand{\shorttitlestr}{Assignment 1 - Hadoop}
+ 	\newcommand{\groupnames}{M. Vincent \& A. Phansalkar}
+ 	\newcommand{\studentids}{a1148120 \& }
+ 	\newcommand{\authorstr}{\groupnames}
+ 	
+ 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%555
+ 	% title page
+ 	\begin{titlepage}
+ 		\centering
+ 		
+ 		{\LARGE \bf \titlestr \par}
+ 		\vspace{0.25cm}
+ 		{\large \bf \shorttitlestr \par}
+ 		
+ 		
+ 		\vspace{1cm}
+ 		{\large \authorstr \\}
+ 		{ \studentids \par}
+ 		\vspace{0.25cm}
+ 		
+ 		\large School of Computer Science, The University of Adelaide
+ 		
+ 		\vspace{1cm}
+ 		\today
+ 		
+ 		\vspace{3cm}
+ 		Report submitted for
+ 		{\bf COMP SCI 3306 Mining Big Data}
+ 		at the School of Computer Science,
+ 		University of Adelaide
+ 		
+ 		\includegraphics[width=0.35\textwidth]{./Figures/UoA_logo_cmyk.pdf}
+ 		
+ 		\vspace{9cm}
+ 		
+
+ 	 	\vspace{1mm}
+ 		\noindent \hrulefill
+ 		
+ 		\vfill
+ 	\end{titlepage}
+ 	
+ 	\clearpage
+ 	\setcounter{page}{1}
+	
+	\section*{Exercise 1}
+	
+
+	
+	\section*{Exercise 2}
+
+	The output from the tutorial example can be found in the folder Exercise 2/WordCount/Output. The source code, input file, and the executable JAR file used to run the Hadoop job in pseudo-distributed mode, can all be found in the folder Exercise 2/WordCount. 
+	
+	\section*{Exercise 3}
+
+	\section*{Exercise 4}
+	\subsection*{Parts 1 and 2}
+	
+	To answer the first two parts of this question, we developed a new MapReduce job. In the map function for this job, the length of each word is used as the key in each key-value pair, rather than the text of the word itself. The value remains 1, as in the WordCount algorithm in the tutorial. The reduce function then sums the values for each key with the same number, giving the final output.  
+	
+	The output from this MapReduce job can be found in folder Exercise 4/WordLength/Output. This output was used to answer the questions below. 
+	
+\begin{enumerate} 
+  \item There are 3102 words of length 10 in FirstInputFile.
+  \item There are 7019 words of length 4 in FirstInputFile.
+  \item The longest word in FirstInputFile is 21 characters long, and it appears once.
+  \item There are 306 words of length 2 in SecondInputFile.
+  \item There are 105 words of length 5 in SecondInputFile.
+  \item The most frequent length in SecondInputFile is 0 and it appears 297337 times. 
+\end{enumerate}
+	
+	\subsection*{Parts 3 and 4}	
+	
+	To answer Parts 3 and 4, we used the original WordCount MapReduce job to generate a unique list of the words appearing in each of the input files, and then took this as the input for the WordLength job. 
+	
+	The WordCount job that was developed using the tutorial produced a list of words that included punctuation and other characters. When this output was run through the WordLength job, it showed a very large number of zero and single character words. Obviously this is not possible, so we tried modifying the WordCount job by removing all characters that were not alphabetical. This produced output that at least passed a simple sense check. 
+	
+	The output generated using both of the MapReduce jobs together can be found in the folder Exxercise 4/WordLength/Output. This output was used to answer the questions below. 
+	
+\begin{enumerate} 
+  \item There are 2263 words of length 10 in FirstInputFile.
+  \item There are 1911 words of length 4 in the FirstInputFile.
+  \item The most frequent length in  FirstInputFile is 7, and it appears 4908 times.
+  \item There are 1819 words of length 5 in SecondInputFile.
+  \item There are 65 words of length 2 in SecondInputFile.
+  \item The second most frequent length in SecondInputFile is 8 and it appears 2800 times. 
+\end{enumerate}
+	
+	\section*{Exercise 5}
+
+\bibliography{./bibliography-ChapterSummary}
+\end{document}

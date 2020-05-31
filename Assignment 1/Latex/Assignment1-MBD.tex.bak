@@ -1,3 +1,5 @@
+
+
  \documentclass[12t]{article}
  
  \usepackage[margin=1in]{geometry} 
@@ -39,7 +41,7 @@
  	\newcommand{\titlestr}{Mining Big Data - Map-Reduce}
  	\newcommand{\shorttitlestr}{Assignment 1 - Hadoop}
  	\newcommand{\groupnames}{M. Vincent \& A. Phansalkar}
- 	\newcommand{\studentids}{a1627392 \& a1148120}
+ 	\newcommand{\studentids}{a1148120 \& a1776879}
  	\newcommand{\authorstr}{\groupnames}
  	
  	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%555
@@ -88,311 +90,65 @@
 	
 	The number of hotels is set at $1\%$ of the population, hence there are $500,000$ hotels. The chance of two individuals being at the same hotel on the same day is .0001. The chance that they will visit the same hotel on the same day, is this divided by the number of hotels, which is $2^{-10}$. The chance that a pair will visit the same hotel on 4 different days is this to the power of four, which is $1.6^{-39}$. 
 	
-	Using the fact that ${n \choose 2}$ can be approximated by $n^2/2$, we find that the number of pairs of people is ${5^{10} \choose 2}=1.25^{19}$, and the number of pairs of days is ${5000 \choose 2}=1.25^{7}$. The expected number of events that look like evil-doing is then calculated as,
+	Using the fact that ${n \choose 2}$ can be approximated by $n^2/2$, we find that the number of pairs of people is ${5^{10} \choose 2}=1.25^{19}$, and the number of pairs of days is ${5000 \choose 4}=2.6^{13}$. The expected number of events that look like evil-doing is then calculated as,
 	
 	\begin{align}
-	1.25^{19} \times 1.25^{7} \times 1.6^{-39} = 2.5^{-13}
+	1.25^{19} \times 2.6^{13} \times 1.6^{-39} = 5.2^{-7}
 	\end{align}
 	
-	The expected number of events that look like evil-doing is effectively zero, using the above definition of suspected evil-doing. 
+	The expected number of events that look like evil-doing is $5.2^{-7}$. 
 	
 	\section*{Exercise 2}
-	\subsection*{Word Count}
-	
-	\textbf{Map Function}
-	\begin{lstlisting}
-	public void map(LongWritable key, Text value, Context context)
-			throws IOException, InterruptedException {
-			
-		// Convert text to a string and break into words
-		String line = value.toString();
-		String[] words = line.split(" ");
-		// For each word make a Key-Value pair
-		for(String word : words){
-			Text outputKey = new Text(word.toUpperCase().trim().replaceAll("[^A-Z]", ""));
-			IntWritable outputValue = new IntWritable(1);
-			// Generate Key-Value pairs as (Word, 1)
-			context.write(outputKey,  outputValue);
-	}
-	\end{lstlisting}
-	
-	\textbf{Reduce Function}
-	\begin{lstlisting}
-	public void reduce(Text key, Iterable<IntWritable> values, Context context)
-			throws IOException, InterruptedException {
-			
-		// Each reduced will only receive one key
-		int sum = 0;
-		// Sum over the number of occurrences of the key
-		for(IntWritable value : values){ sum += value.get(); }
-		IntWritable outputValue = new IntWritable(sum);
-		// Output as (Word, Frequency)
-		context.write(key, outputValue);
-	}
-	\end{lstlisting}
-	
-	\noindent The output of the job in stand-alone and pseudo-distributed mode can be found in the folder Exercise2/WordCount/Output as 100-0WC.txt and 100-0WCPseudoDist.txt respectively. The individual outputs did not vary in content or chunk size as the cluster implemented only had a single worker. 
-	
-	\subsection*{First Letter of Words - Alphabetical}
-	
-	\textbf{Map Function}
-	\begin{lstlisting}
-	public void map(LongWritable key, Text value, Context context)
-			throws IOException, InterruptedException {
-			
-		// Convert text to a string and break into words
-		String line = value.toString();
-		String[] words = line.split(" ");
-		char firstLetter;
-		// For each word get the first letter and form a Key-Value pair
-		for(String word : words){
-			// Remove symbols, spaces and convert to upper-case
-			word = word.toUpperCase().trim().replaceAll("[^A-Z]", "");
-			// Check if the anything is left in the string
-			if (word.length() > 0) { firstLetter = word.charAt(0); }
-			else{ firstLetter = '-'; }
-			// Convert to expected data types
-			Text outputKey = new Text(Character.toString(firstLetter));
-			IntWritable outputValue = new IntWritable(1);
-			// Generate Key-Value pairs as (Letter, 1)
-			context.write(outputKey,  outputValue);
-	}
-	\end{lstlisting}
-	
-	\textbf{Reduce Function}
-	\begin{lstlisting}
-	public void reduce(Text key, Iterable<IntWritable> values, Context context)
-			throws IOException, InterruptedException {
-		// Each reduced will only receive one key
-		int sum = 0;
-		// Sum over the number of occurrences of the key
-		for(IntWritable value : values) { sum += value.get(); }
-		IntWritable outputValue = new IntWritable(sum);
-		// Output as (Word, Frequency)
-		context.write(key, outputValue);
-	}
-	\end{lstlisting}
-	\noindent The output of the job in stand-alone and pseudo-distributed mode can be found in the folder Exercise2/Alphabetical/Output as 100-0FirstLetter.txt and 100-0FirstLetterPseudoDist.txt respectively. The individual outputs did not vary in content or chunk size as the cluster implemented only had a single worker.
+
+	The output from the tutorial example can be found in the folder Exercise 2/WordCount/Output. The source code, input file, and the executable JAR file used to run the Hadoop job in pseudo-distributed mode, can all be found in the folder Exercise 2/WordCount. 
 	
 	\section*{Exercise 3}
-	\subsection*{Friend Recommendations}
-	Ultimately the goal of this algorithm is to turn a list of users and their current friends into a list of suggestions of friends for each users, where the number of mutual connections gives the strength of the recommendation. The Map function used in this implementation can bee seen below. It first parses the input a for a User and lists of Friends. Then for each pair the overall list of Friends is further parsed for all there individual identifiers. This is used to generate keys representing a relationship between two users, (userID1, userID2), with two possible values:
-	\begin{enumerate}
-	\item All keys containing the current user being parsed have a large negative value associated with their keys as the user and friend are already connected. This ensures users that are already friends are not suggested.
-	\item Each friend of the user is then iterated over generating keys between friends of the user with value 1. These key-values are generated as the two friends of the user have one mutual friend who is the user.
-	\end{enumerate}
-	These two types of key-values will then be hashed and allocated to reduce nodes such that all the keys that arrive at the node will represent that user's mutual friends and their connectedness in relation to another user. The reduce function simply sums the values for all the keys received discarding any pairs with sums that are less than one. This produces output representing the suggested connection to form between two users and the number of mutual connects those users share. \\
 	
-	\textbf{Map Function}
-	\begin{lstlisting}
-	public void map(LongWritable key, Text value, Context context)
-			throws IOException, InterruptedException {
-	
-		// Convert text to a string and break into words
-		String line = value.toString();
-		// Split on enters
-		String[] UsersFriends = line.split("\n");
-		
-		// Hacky shit to read strings:
-		
-		// For each User
-		for(String UserFriends : UsersFriends){
-			// Split on multiple spaces
-			String[] Used = UserFriends.split("\\s+");
-			// Get the Users ID
-			String User = Used[0];
-			
-			// Get the users friends list
-			String[] Friends = {""};
-			if (Used.length > 1) { Friends = Used[1].split(",");	}
-		
-			// Generate key-value pairs
-			for(int j = 0; j < Friends.length; j++){
-				String Friend = Friends[j];
-				// Make sure the friend is not empty
-				if (Friend != "" && User != ""){
-				// Set output for user and current friends connection
-				Text outputKey = new Text("(" + User + ", " + Friend + ")");
-				// Negative value larger than user population
-				IntWritable outputValue = new IntWritable(-10000000); 
-				// Make key-value pair
-				context.write(outputKey,  outputValue);
-			}
-		
-			// Throw keys for mutual friends of the current User
-			for(int k = j+1; k < Friends.length; k++){
-				String Mutual = Friends[k];
-				// Set output for mutual friends
-				Text outputKey = new Text("(" + Friend + ", " + Mutual + ")");
-				IntWritable outputValue = new IntWritable(1); // One mutual connection
-				// Make key-value pair
-				context.write(outputKey,  outputValue);
-			}
-		}  	
-	}
-	\end{lstlisting}
-	
-	\clearpage 
-	\textbf{Reduce Function}
-	\begin{lstlisting}
-	public void reduce(Text key, Iterable<IntWritable> values, Context context)
-			throws IOException, InterruptedException {
-	
-		// Each reduced will only receive one key
-		int sum = 0;
-		
-		// Sum over the number of occurrences of the key
-		for(IntWritable value : values) { sum += value.get(); }
-		
-		// Only produce output for positive weights
-		if (sum > 0){
-			IntWritable outputValue = new IntWritable(sum);
-			// Output as (Recommendation, Weight)
-			context.write(key, outputValue);
-		}
-	}
-	\end{lstlisting}
-	
-	\subsection*{Results}
-	\begin{table}[h]
-	\begin{tabular}{|ll|ll|ll|ll|ll|ll|}
-		\hline
-		User 924:  &   & User 8941: &   & User 8942:   &   & User 9019: &   & User 9020: &   & User 9021: &   \\ 
-		\hline
-		(11860)    & 1 & (8943)     & 2 & (8939)       & 3 & (9022)     & 2 & (9016)     & 2 & (9022)     & 2 \\
-		(15416)    & 1 & (8944)     & 2 & (8940)       & 1 & (9023)     & 1 & (9017)     & 2 & (9023)     & 1 \\
-		(2409)     & 1 & (8940)     & 1 & (8943)       & 1 & (317)      & 1 & (317)      & 1 & (317)      & 1 \\
-		(43748)    & 1 &            &   & (8944)       & 1 &            &   & (9021)     & 3 & (9016)     & 2 \\
-		(45881)    & 1 &            &   &              &   &            &   & (9022)     & 2 & (9017)     & 2 \\
-		(6995)     & 1 &            &   &              &   &            &   & (9023)     & 1 & (9020)     & 3 \\
-		 \hline
-		User 9022: &   & User 9990: &   & User 9992:   &   & User 9993: &   &            &   &            &   \\ 
-		\hline
-		(9023)     & 1 & (13134)    & 1 & (9987)       & 4 & (13134)    & 1 &            &   &            &   \\
-		(317)      & 1 & (13478)    & 1 & (9989)       & 3 & (13478)    & 1 &            &   &            &   \\
-		(9016)     & 1 & (13877)    & 1 & (9991, 9992) & 1 & (13877)    & 1 &            &   &            &   \\
-		(9017)     & 1 & (34299)    & 1 & (35667)      & 3 & (34299)    & 1 &            &   &            &   \\
-		(9019)     & 2 & (34485)    & 1 & (9989)       & 1 & (34485)    & 1 &            &   &            &   \\
-		(9020)     & 2 & (34642)    & 1 & (9992, 9991) & 1 & (34642)    & 1 &            &   &            &   \\
-		(9021)     & 2 & (37941)    & 1 & (37941)      & 1 &            &   &            &   &            &   \\
-		(9991)     & 5 &            &   &              &   &            &   &            &   &            &  \\ 
-		\hline
-	\end{tabular}
-	\end{table}
-	\clearpage
-	\section*{Exercise 4}
-	This Map-Reduce algorithm will summarise a document by extracting the number of unique words it has of a given length of characters. To achieve this two applications of different Map-Reduce algorithms are applied. The first is the Word Count described above that produces a list of all unique words contained in the document and their frequency of use. This list is then used as the input for the second Word Length Map-Reduce algorithm. Which will parse the list of unique words, producing keys of length and values of one which are then summed in the reduce task.
-	
-	\subsection*{Word Length}
-	
-	\textbf{Map Function}
-	\begin{lstlisting}
-		public void map(LongWritable key, Text value, Context context)
-				throws IOException, InterruptedException {
-			
-			// Convert text to a string and break into words
-			String line = value.toString();
-			String[] words = line.split(" ");
-			// For each word get the first letter and form a Key-Value pair
-			for(String word : words){
-				// Remove symbols and spaces
-				word = word.toUpperCase().trim().replaceAll("[^A-Z]", "");
-				// Convert to expected output data types
-				IntWritable outputKey = new IntWritable(word.length());
-				IntWritable outputValue = new IntWritable(1);
-				// Generate Key-Value pairs as (Length, 1)
-				context.write(outputKey,  outputValue);
-			}
-		}
-	\end{lstlisting}
-	
-	\textbf{Reduce Function}
-	\begin{lstlisting}
-	public void reduce(IntWritable key, Iterable<IntWritable> values, Context context)
-			throws IOException, InterruptedException {
-		
-		// Each reduced will only receive one key
-		int sum = 0;
-		// Sum over the number of occurrences of the key
-		for(IntWritable value : values){ sum += value.get(); }
-		
-		IntWritable outputValue = new IntWritable(sum); // write() unable to accept IntWritable?
-		// Output as (Word, Frequency)
-		context.write(key, outputValue);
-	}
-	\end{lstlisting}
-	
-	\subsection*{Results}
-	\subsubsection*{Part 1}
-	
-	\noindent The output of the job can be found in the folder Exercise4/Output as pg100WordLength.txt for the first input file, and pg3399WordLength.txt for the second. The output was used to answer the questions in Part 2.
-		
-	\pagebreak
-	\subsubsection*{Part 2}
-	
-	\begin{itemize}
-		\item Q1: There are 3,102 words of length 10 in the first input file
-		\item Q2: There are 7,019 words of length 4 in the first input file
-		\item Q3: The longest length between words was 21 in the first input file, and occurred once
-		\item Q4: There are 306 words of length 2 in the second input file
-		\item Q5: There are 105 words of length 5 in the second input file
-		\item Q6: The most frequent length in the second input file was 0 and its frequency was 306,794
-	\end{itemize}
-	
-	\subsubsection*{Part 3}
-	\noindent The output of the job can be found in the folder Exercise4/Output as pg100UniqueLength.txt for the first input file, and pg3399UniqueLength.txt for the second. The output was used to answer the questions in Part 4.
-	
-	\subsubsection*{Part 4}
-	\begin{itemize}
-		\item Q7: There are 1,736 unique words of length 10 in the first input file
-		\item Q8: There are 1,168 unique words of length 4 in the first input file
-		\item Q9: The most frequent unique word length in the first input file is 7, with 2,809 occurrences
-		\item Q10: There are 3,371 unique words of length 5 in the second input file
-		\item Q11: There are 94 unique words of length 2 in the second input file
-		\item Q12: The second-most frequent unique word length in the second input file is 8, with 4,380 occurrences
-	\end{itemize}
-	
-	\clearpage
-	\section*{Exercise 5 - By J. Bockman}
-	\subsection*{Extensions to Map-Reduce}
-	Other frameworks exist to extend the core idea of Map-Reduce to more complex workflows. They share commonalities with the Map-Reduce framework as they run on distributed file systems, manage a large number of task executions across workers and  offer overall processes robustness to individual worker failure.
-	
-	\subsection*{Workflow Systems}
-	Two frameworks designed by Universities that utilised distributed processing on massive datasets are Clustera and Hyracks. These systems only require a workflow to have an acyclic structure of outputs of functions feeding the input of others. The diagrammatic representation of an example workflow can bee seen in Figure \ref{fig:workflow}. Each of the functions seen in the workflow can be preformed as a Map task would be across multiple workers with a master controller managing the allocation for outputs to the next workers that will complete the next step.
-	
-	\begin{figure}[h]
-		\centering
-		\includegraphics[width=0.5\textwidth]
-		{./Figures/WorkflowSystem.png}
-		\caption{Workflow system example showing the acyclic nature of sequential functions resulting in the final output of the job from j \cite{MMDS}} \label{fig:workflow}
-	\end{figure}
-	
-	\subsection*{Iterative Map-Reduce for Recursive Tasks}
-	In general recursive tasks contain cyclic workflows with input from one function coming from the output of a function that it serves input to. Cyclic workflows are often implemented as iterated Map-Reduce tasks as an easy way to include redundancy for worker failure and that true recursive tasks would be unable to produce any output until they had received input that relies on further nodes receiving there output. Some tasks may be able to be implemented by using a single map function that feeds its output to itself as input. However by having the reduce node as a step in the work flow the traditional avenues for worker failure within the overall Map-Reduce framework are preserved.
-	
-	\subsection*{Pregel}
-	Another framework that enable distributed recursive tasks is Pregel. Systems using this framework represent their data as a graph, with each node representing a task. Nodes generate output received by all other nodes which then treat this as input to be processed. Computation is done in discrete supersteps, which contains the all the information shared between the nodes of the graph during the step. These supersteps act as checkpoints for the overall job. In the event of a node failure the task cannot be restarted on a substitute worker but the entire job can be resumed from the last check-pointed superstep. Each checkpoint does have to be a representation of the overall network at that point in time which can be cumbersome and many other workers that did not fail need to restart their jobs it can be a suitable environment for many tasks. The overhead of creating checkpoints is also reduced by only making checkpoints such that the probability of failure during the number of supersteps between checkpoints is low, rather than at every step.
-	
-	\clearpage
-	
- 	\subsection*{The Communication Cost Model}
- 	This model is designed to evaluate and understand how good a particular algorithm is at utilising a computer cluster. To use the model the workflow must be acyclic and that the main bottleneck in the distributed system is the transfer of information between nodes. This is generally true of most clusters for the following reasons:
- 	
- 	\begin{enumerate}
-	 	\item Individual tasks in workflows tend to be simple due to the requirement of independence between the tasks, leading to most algorithms running in linear time.
-	 	
-	 	\item Although interconnects between nodes usually use gigabit capable infrastructure this throughput pales in comparison to the speed a worker can progress through the local chunk.
-	 	
-	 	\item Even if the chunk required by the node is present already, the time taken to load the chunk from disk into memory will often be longer than the processing time of that chunk.
- 	\end{enumerate}
- 
- 	\noindent Furthermore the communication cost model need only take into account the input size. This is a simplification base on the premiss that workflows are cascaded so the output of one task is treated in the model when considering the input of sequential tasks and workflows usually lead to an output of reduced size summarising the overall information in the distributed database. In this way most algorithms running on distrusted systems can be analysed using big $O$ notation to represent there communication cost. For example a Map-Reduce workflow may involve $n$ chunks of size $s$ being allocated across $p$ nodes. In this case the initial map step will generate roughly the same number of keys as the input size to be received as input by the reduce nodes. It can be seen that each map and reduce node must load the chunks relevant to them given a total communication done as $2nsp$, which in Big-$O$ reduces to $O(nsp)$.
- 	
- 	\subsection*{Wall-Clock Time}
- 	Naively an optimisation of the communication cost would lead to the conclusion that all functions in a given workflow should be completed on a single worker to avoid all transfer of information besides the initial loading. However this also diminishes any runtime benefit of parallel processing. Due to this the wall-clock time should not be sacrificed when considering algorithm optimisation in terms of the communication cost model. \cite{MMDS}
- 	
- 	
+	The output from the FriendRecommend algorithm can be found in the folder Exercise 3/Output. 
 
-\clearpage
+	\section*{Exercise 4}
+	\subsection*{Parts 1 and 2}
+	
+	To answer the first two parts of this question, we developed a new MapReduce job. In the map function for this job, the length of each word is used as the key in each key-value pair, rather than the text of the word itself. The value remains 1, as in the WordCount algorithm in the tutorial. The reduce function then sums the values for each key with the same number, giving the final output.  
+	
+	The output from this MapReduce job can be found in folder Exercise 4/WordLength/Output. This output was used to answer the questions below. 
+	
+\begin{enumerate} 
+  \item There are 3102 words of length 10 in FirstInputFile.
+  \item There are 7019 words of length 4 in FirstInputFile.
+  \item The longest word in FirstInputFile is 21 characters long, and it appears once.
+  \item There are 306 words of length 2 in SecondInputFile.
+  \item There are 105 words of length 5 in SecondInputFile.
+  \item The most frequent length in SecondInputFile is 0 and it appears 297337 times. 
+\end{enumerate}
+	
+	\subsection*{Parts 3 and 4}	
+	
+	To answer Parts 3 and 4, we used the original WordCount MapReduce job to generate a unique list of the words appearing in each of the input files, and then took this as the input for the WordLength job. 
+	
+	The WordCount job that was developed using the tutorial produced a list of words that included punctuation and other characters. When this output was run through the WordLength job, it showed a very large number of zero and single character words. Obviously this is not possible, so we tried modifying the WordCount job by removing all characters that were not alphabetical. This produced output that at least passed a simple sense check. 
+	
+	The output generated using both of the MapReduce jobs together can be found in the folder Exxercise 4/WordLength/Output. This output was used to answer the questions below. 
+	
+\begin{enumerate} 
+  \item There are 2263 words of length 10 in FirstInputFile.
+  \item There are 1911 words of length 4 in the FirstInputFile.
+  \item The most frequent length in  FirstInputFile is 7, and it appears 4908 times.
+  \item There are 1819 words of length 5 in SecondInputFile.
+  \item There are 65 words of length 2 in SecondInputFile.
+  \item The second most frequent length in SecondInputFile is 8 and it appears 2800 times. 
+\end{enumerate}
+	
+	\section*{Exercise 5}
+	
+	There are mainly few experimental systems which are called Clustera from the University of Wisconsin and Hyracks from the University of California at Irvine extend MapReduce from the workflow of any collected function, with an acyclic graph represent workflow among the functions. Whic is an acyclic flow graph whose arcs a → b represents the fact that function a’s output is input to function b. A moment assume that, function h takes its input from a pre-existing file of the distributed file system. Every h of output elements is passed to at least one of the functions i and j.
+	
+	There are many advantage which are very helpful on implementing such cascades as a single workflow from those here is one of them . The flow of data which is among tasks, and its replication are able to be managed by the master controller without any need of storing the temporary file which is the output of one MapReduce job from the distributed file system. Now by placing them in the tasks to compute nodes from which that have a blueprint of their input so we can avoid much of the communication that would be very necessary. We stored the blueprint of one MapReduce job and after that we initiated a second MapReduce job which is Hadoop and other map Reduce systems also try to locate Map tasks where a copy of their input is already present.
+
+	Here is one more approach to handling the failures while implementation lof recursive algorithms on the basis of computing cluster which is represented by the Pregel system. System shows its own data as a graph. Every node of the graph corresponds roughly to a task . Every graph node gives output messages that are destined for every other nodes of the graph and every graph node processes the inputs it receives from other nodes.
+
+	Lets assume that an algorithm is implementing an acyclic network of tasks. These tasks would be Map tasks which feeds to reduce tasks as in a standard MapReduce algorithm, or they could be several MapReduce jobs cascaded, or a more general workflow structure, such as a collection of tasks each of which implementation .The communication cost of each and every task is denoted as the size of the input to the task. This size will be measured in bytes. Although we can use relational database operations as examples we can use the number of tuples as a measure of size. While communication cost often influences our choice of algorithm to use in a cluster-computing environment, we must also be aware of the importance of wall-clock time, the time it takes a parallel algorithm to finish. Using careless reasoning, one could minimize total communication
+cost by assigning all the work to one task, and thereby minimize total communication.
+
 \bibliography{./bibliography-ChapterSummary}
 \end{document}
